@@ -42,7 +42,7 @@ variable "description" {
   default     = "Managed by Terraform"
 }
 
-variable "environment" {
+variable "aws_environment" {
   description = "Environment configuration for the Lambda function"
   type        = "map"
   default     = {}
