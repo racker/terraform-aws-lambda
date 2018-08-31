@@ -135,10 +135,11 @@ with tempdir() as temp_dir:
         requirements = os.path.join(temp_dir, 'requirements.txt')
         if os.path.exists(requirements):
             cd(temp_dir)
-            if runtime.startswith('python3'):
-                pip_command = 'pip3'
-            else:
-                pip_command = 'pip2'
+            # if runtime.startswith('python3'):
+            #     pip_command = 'pip3'
+            # else:
+            #     pip_command = 'pip2'
+            pip_command = 'pip'
             run(pip_command, 'install', '-r', 'requirements.txt', '-t', '.')
 
     # Zip up the temporary directory and write it to the target filename.
