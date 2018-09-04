@@ -111,6 +111,7 @@ absolute_filename = os.path.abspath(filename)
 # so no changes will be made to the source directory.
 with tempdir() as temp_dir:
 
+    task_dir = '{}:/var/task'.format(temp_dir)
     # Find all source files.
     if os.path.isdir(source_path):
         source_dir = source_path
@@ -135,10 +136,10 @@ with tempdir() as temp_dir:
         requirements = os.path.join(temp_dir, 'requirements.txt')
         if os.path.exists(requirements):
             cd(temp_dir)
-            task_dir = '{}:/var/task'.format(temp_dir)
             run('docker', 'run', '--rm', '-v', task_dir, 'lambci/lambda:build-python3.6', 'pip', 'install', '-r', 'requirements.txt', '-t', '.')
 
     # Zip up the temporary directory and write it to the target filename.
     # This will be used by the Lambda function as the source code package.
     create_zip_file(temp_dir, absolute_filename)
+    run('docker', 'run', '--rm', '-v', task_dir, 'lambci/lambda:build-python3.6', 'rm', '-rf', '*')
     print('Created {}'.format(filename))
