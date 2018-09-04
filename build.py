@@ -135,12 +135,9 @@ with tempdir() as temp_dir:
         requirements = os.path.join(temp_dir, 'requirements.txt')
         if os.path.exists(requirements):
             cd(temp_dir)
-            # if runtime.startswith('python3'):
-            #     pip_command = 'pip3'
-            # else:
-            #     pip_command = 'pip2'
-            pip_command = 'pip'
-            run(pip_command, 'install', '-r', 'requirements.txt', '-t', '.')
+            run('docker', 'run', '--rm', '-v',
+                '"$PWD":/var/task lambci/lambda:build-python3.6',
+                'pip', 'install', '-r', 'requirements.txt', '-t', '.')
 
     # Zip up the temporary directory and write it to the target filename.
     # This will be used by the Lambda function as the source code package.
