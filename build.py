@@ -135,7 +135,8 @@ with tempdir() as temp_dir:
         requirements = os.path.join(temp_dir, 'requirements.txt')
         if os.path.exists(requirements):
             cd(temp_dir)
-            run('docker', 'run', '--rm', '-v', f'{temp_dir}:/var/task', 'lambci/lambda:build-python3.6', 'pip', 'install', '-r', 'requirements.txt', '-t', '.')
+            task_dir = '{}:/var/task'.format(temp_dir)
+            run('docker', 'run', '--rm', '-v', task_dir, 'lambci/lambda:build-python3.6', 'pip', 'install', '-r', 'requirements.txt', '-t', '.')
 
     # Zip up the temporary directory and write it to the target filename.
     # This will be used by the Lambda function as the source code package.
