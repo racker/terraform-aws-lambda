@@ -136,7 +136,7 @@ with tempdir() as temp_dir:
         if os.path.exists(requirements):
             cd(temp_dir)
             run('docker', 'run', '--rm', '-v',
-                '"$PWD":/var/task lambci/lambda:build-python3.6',
+                f'{temp_dir}:/var/task', 'lambci/lambda:build-python3.6',
                 'pip', 'install', '-r', 'requirements.txt', '-t', '.')
 
     # Zip up the temporary directory and write it to the target filename.
