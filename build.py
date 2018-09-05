@@ -83,7 +83,8 @@ def tempdir():
     try:
         yield path
     finally:
-        shutil.rmtree(path)
+        # shutil.rmtree(path)
+        return
 
 
 def create_zip_file(source_dir, target_file):
@@ -141,5 +142,4 @@ with tempdir() as temp_dir:
     # Zip up the temporary directory and write it to the target filename.
     # This will be used by the Lambda function as the source code package.
     create_zip_file(temp_dir, absolute_filename)
-    run('docker', 'run', '--rm', '-v', task_dir, 'lambci/lambda:build-python3.6', 'rm', '-rf', '*')
     print('Created {}'.format(filename))
